@@ -2,9 +2,7 @@ name: Keep Supabase Active
 
 on:
   schedule:
-    # Berjalan otomatis setiap 3 hari sekali pada pukul 00:00 UTC
     - cron: '0 0 */3 * *'
-  # Memungkinkan tes jalan manual dari tab Actions
   workflow_dispatch:
 
 jobs:
@@ -14,8 +12,7 @@ jobs:
       - name: Ping Database Supabase
         run: |
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            "https://gdmuvnoilqgpkzagklfq.supabase.co" \
-            -H "apikey: sb_publishable_YjPgY5_BZq8mojdqDKFVvw_Z6ih7kkA" \
-            -H "Authorization: Bearer sb_publishable_YjPgY5_BZq8mojdqDKFVvw_Z6ih7kkA")
+            "https://gdmuvnoilqgpkzagklfq.supabase.co/rest/v1/proker?select=id&limit=1" \
+            -H "apikey: sb_publishable_YjPgY5_BZq8mojdqDKFVvw_Z6ih7kkA")
           echo "Status respons Supabase: $STATUS"
           if [ "$STATUS" -ne 200 ]; then exit 1; fi
